@@ -1,2 +1,3 @@
 # highlighting
-The highlighting files for Fushra MEML
+
+This repo contains syntax highlighting files for Fushra MEML. These files are generated using [iro](https://eeyo.io/iro/).
