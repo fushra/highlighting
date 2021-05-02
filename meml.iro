@@ -1,0 +1,153 @@
+########################################
+## Header
+########################################
+
+name                    = meml
+file_extensions []      = meml;
+
+########################################
+## Styles
+########################################
+
+styles[] {
+   .comment : style {
+      color = #546E7A
+      textmate_scope = comment
+      pygments_scope = Comment
+   }
+
+   .keyword : style {
+      color = #89DDFF
+      textmate_scope = keyword
+      pygments_scope = Keyword
+   }
+   
+   .declaration : style {
+      color = #89DDFF
+      textmate_scope = punctuation.definition
+      pygments_scope = Keyword.Declaration
+   }
+   
+   .delcaration_identifier : style {
+      color = #f07178
+      textmate_scope = variable.other.constant
+   }
+   
+   .tag_identifier : style {
+      color = #f07178
+      textmate_scope = entity.name.tag
+   }
+   
+   .string : style {
+      color = #C3E88D
+      textmate_scope = string
+      pygments_scope = String
+   }
+   
+   .variable : style {
+      color = #CCFFFF
+      textmate_scope = variable
+   }
+   
+   .punctuation : style {
+      color = #89DDFF
+      textmate_scope = punctuation
+      pygments_scope = Punctuation
+   }
+   
+   .punctuation_tag : style {
+      color = #89DDFF
+      textmate_scope = punctuation.definition.tag
+      pygments_scope = Punctuation
+   }
+   
+   .punctuation_string : style {
+      color = #C3E88D
+      textmate_scope = punctuation.definition.string
+      pygments_scope = String.Double
+   }
+}
+
+########################################
+## Contexts
+########################################
+
+contexts[] {
+   main : context {
+      # Keyword pattern
+      : pattern {
+         regex \= (import|from|export)
+         styles[] = .keyword;
+      }
+      
+      # Declaration pattern
+      : pattern {
+         regex \= (component)
+         styles[] = .declaration;
+      }
+      
+      # Tag identifier
+      : pattern {
+         regex \= ((?<=\(\s*)\w*(?=.*))
+         styles[] = .tag_identifier;
+      }
+      
+      # Component keyword
+      : pattern {
+         regex \= ((?<=\(component\ )\w*)
+         styles[] = .delcaration_identifier;
+      }
+      
+      # Destructures
+      : pattern {
+         regex \= ((?<=\()\w*(, \w*)*(?=\)))
+         styles[] = .delcaration_identifier;
+      }
+      
+      # General punctuation
+      : pattern {
+         regex \= (\+|-|(?<!/)(/)(?!/)|\*|=)
+         styles[] = .punctuation;
+      }
+      
+      # Tag punctuation
+      : pattern {
+         regex \= (\(|\))
+         styles[] = .punctuation_tag;
+      }
+      
+      # Tag properties
+      : pattern {
+         regex \= ((\w*)(?==))
+         styles[] = .variable;
+      }
+      
+      # Comments
+      : pattern {
+         regex \= (//.*)
+         styles[] = .comment;
+      }
+      
+      # String (Double quotes)
+      : inline_push {
+         regex \= (")
+         styles[] = .punctuation_string;
+         default_style = .string
+         : pop {
+            regex \= (")
+            styles[] = .punctuation_string;
+         }
+      }
+      
+      # String (Single quotes)
+      : inline_push {
+         regex \= (')
+         styles[] = .punctuation_string;
+         default_style = .string
+         : pop {
+            regex \= (')
+            styles[] = .punctuation_string;
+         }
+      }
+   }
+}
